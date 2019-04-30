@@ -37,15 +37,15 @@ public class LHM extends Application {
         
         Button start = new Button();
         start.setText("Start");
-        grid.add(start, 3, 25);
+        grid.add(start, 3, 30);
         
         Button reset = new Button();
         reset.setText("Reset");
-        grid.add(reset, 3, 26);
+        grid.add(reset, 3, 31);
         
         Button pause = new Button();
         pause.setText("Pause");
-        grid.add(pause, 3, 27);
+        grid.add(pause, 3, 32);
         
         Label geschwind = new Label("Geschwindigkeit");
         grid.add(geschwind, 0, 25);
