@@ -8,7 +8,7 @@
   </information>
   <resources>
     <j2se version="1.6+" href="http://java.sun.com/products/autodl/j2se"/>
-    <jar href="LHM.jar" size="3218" download="eager" />
+    <jar href="LHM.jar" size="3255" download="eager" />
   </resources>
   <jfx:javafx-desc  width="800" height="600" main-class="lhm.LHM"  name="LHM" />
   <update check="always"/>

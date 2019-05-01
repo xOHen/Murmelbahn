@@ -23,7 +23,7 @@ public class LHM extends Application {
         Parent root = FXMLLoader.load(getClass().getResource("FXML.fxml"));
         
         Scene scene = new Scene(root);
-        
+        stage.setTitle("Kugelbahn");
         stage.setScene(scene);
         stage.show();
     }
