@@ -3,63 +3,29 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package lhm;
 
 import javafx.application.Application;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
+import static javafx.application.Application.launch;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.Slider;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
+
 /**
  *
- * @author Michael
+ * @author $PDEI00-A1GNLU8E0KOC
  */
 public class LHM extends Application {
-
+    
     @Override
-    public void start(Stage primaryStage) {
-        GridPane grid = new GridPane();
-        grid.setAlignment(Pos.CENTER);
-        grid.setHgap(10);
-        grid.setVgap(10);
-        grid.setPadding(new Insets(10, 10, 10, 10));
+    public void start(Stage stage) throws Exception {
+        Parent root = FXMLLoader.load(getClass().getResource("FXML.fxml"));
         
-        Label filler = new Label("Fill");
-        grid.add(filler, 3, 1);
+        Scene scene = new Scene(root);
         
-        Button start = new Button();
-        start.setText("Start");
-        grid.add(start, 3, 30);
-        
-        Button reset = new Button();
-        reset.setText("Reset");
-        grid.add(reset, 3, 31);
-        
-        Button pause = new Button();
-        pause.setText("Pause");
-        grid.add(pause, 3, 32);
-        
-        Label geschwind = new Label("Geschwindigkeit");
-        grid.add(geschwind, 0, 25);
-        
-        Slider speed = new Slider();
-        grid.add(speed, 0, 26);
-
-        Scene scene = new Scene(grid, 400, 500);
-
-        
-        primaryStage.setTitle("Kugelbahn");
-        primaryStage.setScene(scene);
-        scene.getStylesheets().add(LHM.class.getResource("GUI.css").toExternalForm());
-        primaryStage.show();
+        stage.setScene(scene);
+        stage.show();
     }
 
     /**
@@ -68,5 +34,5 @@ public class LHM extends Application {
     public static void main(String[] args) {
         launch(args);
     }
-
+    
 }
