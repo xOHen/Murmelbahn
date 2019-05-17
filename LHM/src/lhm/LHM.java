@@ -5,6 +5,7 @@
  */
 package lhm;
 
+import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
@@ -33,8 +34,10 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.PhongMaterial;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
+import javafx.scene.shape.Sphere;
 import javafx.stage.Stage;
 import javafx.scene.layout.StackPane;
 import javafx.util.Duration;
@@ -62,7 +65,9 @@ public class LHM extends Application {
         Scene scene = new Scene(root, 1200,800);
 
         Group circles = new Group();
-        Circle ball = new Circle(200,100,10);
+        Circle ball = new Circle(10);
+        ball.setLayoutX(90);
+        ball.setLayoutY(48);
         ball.setId("ball");
         circles.getChildren().add(ball);
 
@@ -70,14 +75,16 @@ public class LHM extends Application {
             timeline.getKeyFrames().addAll(
                     new KeyFrame(Duration.ZERO,
                             new KeyValue(circle.translateXProperty(), 0),
-                            new KeyValue(circle.translateYProperty(), 0)
+                            new KeyValue(circle.translateYProperty(), 0),
+                            new KeyValue(circle.translateZProperty(),0)
                     ),
                     new KeyFrame(new Duration(10000),
                             new KeyValue(circle.translateXProperty(), 800),
-                            new KeyValue(circle.translateYProperty(), 0)
+                            new KeyValue(circle.translateYProperty(), 0),
+                            new KeyValue(circle.translateZProperty(),100)
                     )
             );
-            timeline.setCycleCount(10);
+            timeline.setCycleCount(Animation.INDEFINITE);
         }
 
         Line line = new Line(0,570,1200,570);
@@ -124,8 +131,8 @@ public class LHM extends Application {
                     sliderSpeed();
                     playstop=false;
                 }else{
-                    playstop=true;
                     System.out.println(playstop);
+                    playstop=true;
                     playbreakbtn.setId("playbreakbtn");
                     timeline.pause();
                 }
