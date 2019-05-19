@@ -47,12 +47,14 @@ and open the template in the editor.
 .slider .thumb{
     -fx-background-color:
         linear-gradient(#580b25 0%, #c51144 35%, #c51144 65%, #580b25 100%);
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.4) , 10, 0.5, -1, 1);
     -fx-pref-height: 50px;
     -fx-pref-width: 20px;
 }
 
 .slider .thumb:hover{
-    -fx-effect: dropshadow(gaussian, rgba(88, 11, 37, 0.3) , 5, 1, 0, 0);
+    -fx-effect: dropshadow(gaussian, rgba(88, 11, 37, 0.8) , 5, 1, 0, 0);
+    -fx-effect: dropshadow( one-pass-box , rgba(255,255,255,0.5) , 10, 0.0 , 0 , 1);
 }
 
 .slider .track {
@@ -99,4 +101,13 @@ and open the template in the editor.
     -fx-background-repeat: no-repeat;
     -fx-background-position: center;
     -fx-background-color: transparent;
+}
+
+#pfeill{
+    -fx-background-image: url("Bilder/Pfeil.png");
+    -fx-background-size: 69px 125px;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+    -fx-background-color: transparent;
+
 }

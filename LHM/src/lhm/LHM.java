@@ -47,6 +47,8 @@ import java.awt.*;
 public class LHM extends Application {
 
     boolean playstop = true;
+    int ebenecounter=0;
+
     Slider slider = new Slider(0,1.5,1);
     Label multilbl = new Label("x1.0");
     Circle ball = new Circle(20);
@@ -72,11 +74,92 @@ public class LHM extends Application {
         circles.getChildren().add(pfad);
         circles.getChildren().add(ball);
 
-        pfadtrans.play();
 
-        Label bahn = new Label();
-        bahn.setMinSize(1200,570);
-        bahn.setId("bahn1");
+        ImageView hintergrund = new ImageView("lhm/Bilder/bg.png");
+
+        ImageView transblock1 = new ImageView("lhm/Bilder/Ebene1-transparent.png");
+        ImageView transblock3 = new ImageView("lhm/Bilder/Ebene3-transparent.png");
+
+        ImageView ebene = new ImageView("lhm/Bilder/Ebenen.png");
+        Image ebene1 = new Image("lhm/Bilder/Ebene1.png");
+        Image ebene2 = new Image("lhm/Bilder/Ebene2.png");
+        Image ebene3 = new Image("lhm/Bilder/Ebene3.png");
+        Image ebene4 = new Image("lhm/Bilder/Ebene4.png");
+        Image ebene5 = new Image("lhm/Bilder/Ebene5.png");
+        Image ebene0 = new Image("lhm/Bilder/Ebenen.png");
+
+        Button pfeill = new Button();
+        pfeill.setId("pfeill");
+        pfeill.setMinSize(69,125);
+        pfeill.setLayoutX(50);
+        pfeill.setLayoutY(450);
+        pfeill.setRotate(90);
+        pfeill.setOnAction(new EventHandler<ActionEvent>() {
+            @Override public void handle(ActionEvent e) {
+                if(ebenecounter==1){
+                    ebene.setImage(ebene2);
+                    transblock1.setVisible(false);
+                    ebenecounter++;
+                }else if(ebenecounter==2){
+                    ebene.setImage(ebene3);
+                    transblock3.setVisible(true);
+                    ebenecounter++;
+                }else if(ebenecounter==3){
+                    ebene.setImage(ebene4);
+                    transblock3.setVisible(false);
+                    ebenecounter++;
+                }else if(ebenecounter==4){
+                    ebene.setImage(ebene5);
+                    ebenecounter++;
+                }else if(ebenecounter==5){
+                    ebene.setImage(ebene0);
+                    transblock3.setVisible(true);
+                    transblock1.setVisible(true);
+                    ebenecounter=0;
+                }else if(ebenecounter==0){
+                    ebene.setImage(ebene1);
+                    transblock3.setVisible(false);
+                    ebenecounter++;
+                }
+            }
+        });
+
+        Button pfeilr = new Button();
+        pfeilr.setId("pfeill");
+        pfeilr.setMinSize(69,125);
+        pfeilr.setLayoutX(50);
+        pfeilr.setLayoutY(360);
+        pfeilr.setRotate(-90);
+        pfeilr.setOnAction(new EventHandler<ActionEvent>() {
+            @Override public void handle(ActionEvent e) {
+                if(ebenecounter==1){
+                    ebene.setImage(ebene0);
+                    transblock3.setVisible(true);
+                    ebenecounter--;
+                }else if(ebenecounter==2){
+                    ebene.setImage(ebene1);
+                    transblock1.setVisible(true);
+                    ebenecounter--;
+                }else if(ebenecounter==3){
+                    ebene.setImage(ebene2);
+                    transblock3.setVisible(false);
+                    ebenecounter--;
+                }else if(ebenecounter==4){
+                    ebene.setImage(ebene3);
+                    transblock3.setVisible(true);
+                    ebenecounter--;
+                }else if(ebenecounter==5){
+                    ebene.setImage(ebene4);
+                    ebenecounter--;
+                }else if(ebenecounter==0){
+                    ebene.setImage(ebene5);
+                    transblock3.setVisible(false);
+                    transblock1.setVisible(false);
+                    ebenecounter=5;
+                }
+            }
+        });
+
 
         /*for (Node circle: circles.getChildren()) {
             timeline.getKeyFrames().addAll(
@@ -161,7 +244,7 @@ public class LHM extends Application {
 
         hbox.getChildren().addAll(playbreakbtn, stopbtn);
 
-        root.getChildren().addAll(line, bahn, geschwindlabel, slider, multilabel,hbox, multilbl, ball, line2);
+        root.getChildren().addAll(line, hintergrund, ebene, ball, pfeill, pfeilr, transblock1, transblock3, geschwindlabel, slider, multilabel,hbox, multilbl, line2);
 
         root.getStylesheets().add(LHM.class.getResource("GUI.css").toExternalForm());
 
@@ -187,9 +270,30 @@ public class LHM extends Application {
 
     private Path pfadErstellen(){
         Path pfad = new Path();
+        final PauseTransition pt = new PauseTransition( Duration.millis( 1000 ) );
         pfad.getElements().add(new MoveTo(0,0));
         pfad.getElements().add(new CubicCurveTo(0, 0, 50, 0, 50, 0));
         pfad.getElements().add(new CubicCurveTo(50, 0, 100, 0, 100, -50));
+        pfad.getElements().add(new CubicCurveTo(100, -50, 100, -250, 100, -250));
+        pfad.getElements().add(new CubicCurveTo(100, -250, 100, -300, 150, -300));
+        pfad.getElements().add(new CubicCurveTo(150, -300, 200, -300, 200, -250));
+        pfad.getElements().add(new CubicCurveTo(200, -250, 200, -200, 150, -200));
+        pfad.getElements().add(new CubicCurveTo(150, -200, 200, -200, 0, -200));
+
+        pfad.getElements().add(new CubicCurveTo(0, -200, 0, -350, 0, -350));
+        pfad.getElements().add(new CubicCurveTo(0, -350, 0, -400, 50, -400));
+        pfad.getElements().add(new CubicCurveTo(50, -400, 300, -400, 300, -400));
+
+        pfad.getElements().add(new CubicCurveTo(300, -400, 350, -400, 350, -400));
+        pfad.getElements().add(new CubicCurveTo(350, -400, 400, -400, 400, -350));
+        pfad.getElements().add(new CubicCurveTo(400, -350, 400, -350, 400, -300));
+
+        pfad.getElements().add(new CubicCurveTo(400, -300, 400, -300, 400, -250));
+        pfad.getElements().add(new CubicCurveTo(400, -250, 400, -200, 350, -200));
+        pfad.getElements().add(new CubicCurveTo(350, -200, 300, -200, 300, -150));
+        pfad.getElements().add(new CubicCurveTo(300, -150, 300, -150, 300, -50));
+        pfad.getElements().add(new CubicCurveTo(300, -50, 300, -0, 350, 0));
+        pfad.getElements().add(new CubicCurveTo(350, 0, 350, 0, 400, 0));
         pfad.setOpacity(1.0);
         return pfad;
     }
@@ -198,12 +302,11 @@ public class LHM extends Application {
     {
         final PathTransition pathTransition = new PathTransition();
         pathTransition.setDuration(Duration.seconds(8.0));
-        pathTransition.setDelay(Duration.seconds(2.0));
+        pathTransition.setRate(slider.getValue());
         pathTransition.setPath(path);
         pathTransition.setNode(shape);
         pathTransition.setOrientation(PathTransition.OrientationType.ORTHOGONAL_TO_TANGENT);
         pathTransition.setCycleCount(Timeline.INDEFINITE);
-        pathTransition.setAutoReverse(true);
         return pathTransition;
     }
 
