@@ -24,6 +24,7 @@ and open the template in the editor.
 
 #multilbl{
     -fx-font: 30 arial;
+    -fx-font-style: italic;
     -fx-text-fill: white;
     -fx-font-weight: bold;
     -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.4) , 10, 0.5, -1, 1);
@@ -73,6 +74,11 @@ and open the template in the editor.
     -fx-background-color: transparent;
 }
 
+#playbreakbtn:hover{
+    -fx-background-image: url("Bilder/playh.png");
+}
+
+
 #playbreakbtn1{
     -fx-background-image: url("Bilder/pause.png");
     -fx-background-size: 70px 70px;
@@ -82,6 +88,10 @@ and open the template in the editor.
 
 }
 
+#playbreakbtn1:hover{
+    -fx-background-image: url("Bilder/pauseh.png");
+}
+
 #stopbtn{
     -fx-background-image: url("Bilder/beenden.png");
     -fx-background-size: 70px 70px;
@@ -89,6 +99,10 @@ and open the template in the editor.
     -fx-background-position: center;
     -fx-background-color: transparent;
 
+}
+
+#stopbtn:hover{
+    -fx-background-image: url("Bilder/beendenh.png");
 }
 
 #ball{
@@ -110,4 +124,8 @@ and open the template in the editor.
     -fx-background-position: center;
     -fx-background-color: transparent;
 
+}
+
+#pfeill:hover{
+    -fx-background-image: url("Bilder/Pfeilh.png");
 }

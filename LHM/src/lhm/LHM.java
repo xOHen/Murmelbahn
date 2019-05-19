@@ -49,7 +49,7 @@ public class LHM extends Application {
     boolean playstop = true;
     int ebenecounter=0;
 
-    Slider slider = new Slider(0,1.5,1);
+    Slider slider = new Slider(0.25,1.5,1);
     Label multilbl = new Label("x1.0");
     Circle ball = new Circle(20);
     final Path pfad = pfadErstellen();
@@ -75,7 +75,7 @@ public class LHM extends Application {
         circles.getChildren().add(ball);
 
 
-        ImageView hintergrund = new ImageView("lhm/Bilder/bg.png");
+        ImageView hintergrund = new ImageView("lhm/Bilder/bg-2.png");
 
         ImageView transblock1 = new ImageView("lhm/Bilder/Ebene1-transparent.png");
         ImageView transblock3 = new ImageView("lhm/Bilder/Ebene3-transparent.png");
@@ -178,7 +178,6 @@ public class LHM extends Application {
         }*/
 
         Line line = new Line(0,570,1200,570);
-        Line line2 = new Line(350,525,450,525);
 
 
         Label geschwindlabel = new Label("xx km/h");
@@ -244,7 +243,7 @@ public class LHM extends Application {
 
         hbox.getChildren().addAll(playbreakbtn, stopbtn);
 
-        root.getChildren().addAll(line, hintergrund, ebene, ball, pfeill, pfeilr, transblock1, transblock3, geschwindlabel, slider, multilabel,hbox, multilbl, line2);
+        root.getChildren().addAll(line, hintergrund, ebene, ball, pfeill, pfeilr, transblock1, transblock3, geschwindlabel, slider, multilabel,hbox, multilbl);
 
         root.getStylesheets().add(LHM.class.getResource("GUI.css").toExternalForm());
 
