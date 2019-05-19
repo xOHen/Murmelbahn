@@ -31,6 +31,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.ImagePattern;
 import javafx.scene.paint.PhongMaterial;
 import javafx.scene.shape.*;
 import javafx.scene.shape.Shape;
@@ -52,6 +53,8 @@ public class LHM extends Application {
     Slider slider = new Slider(0.25,1.5,1);
     Label multilbl = new Label("x1.0");
     Circle ball = new Circle(20);
+    Image ballImg = new Image("lhm/Bilder/ball.png");
+    ImagePattern imgpattern = new ImagePattern(ballImg);
     final Path pfad = pfadErstellen();
     final PathTransition pfadtrans = generatePathTransition(ball,pfad);
 
@@ -62,13 +65,16 @@ public class LHM extends Application {
 
         AnchorPane root = new AnchorPane();
 
-        Scene scene = new Scene(root, 1200,800);
+        Scene scene = new Scene(root, 1200,820);
+
+        stage.getIcons().add(new Image("lhm/Bilder/icon.png"));
 
         Group circles = new Group();
 
         ball.setLayoutX(400);
         ball.setLayoutY(483);
         ball.setId("ball");
+        ball.setFill(imgpattern);
 
 
         circles.getChildren().add(pfad);
@@ -87,6 +93,8 @@ public class LHM extends Application {
         Image ebene4 = new Image("lhm/Bilder/Ebene4.png");
         Image ebene5 = new Image("lhm/Bilder/Ebene5.png");
         Image ebene0 = new Image("lhm/Bilder/Ebenen.png");
+
+
 
         Button pfeill = new Button();
         pfeill.setId("pfeill");

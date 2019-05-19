@@ -54,7 +54,6 @@ and open the template in the editor.
 }
 
 .slider .thumb:hover{
-    -fx-effect: dropshadow(gaussian, rgba(88, 11, 37, 0.8) , 5, 1, 0, 0);
     -fx-effect: innershadow( one-pass-box , rgba(255,255,255,1.0) , 10, 0.3 , 0 , 0);
 }
 
@@ -106,7 +105,7 @@ and open the template in the editor.
 }
 
 #ball{
-    -fx-fill: #c51144;
+    -fx-effect: innershadow( one-pass-box , rgba(0,0,0,1.0) , 10, 0.3 , 0 , 0);
 }
 
 #bahn1{
