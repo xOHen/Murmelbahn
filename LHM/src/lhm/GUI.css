@@ -92,3 +92,11 @@ and open the template in the editor.
 #ball{
     -fx-fill: #c51144;
 }
+
+#bahn1{
+    -fx-background-image: url("Bilder/Bahn.png");
+    -fx-background-size: 1200px 570px;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+    -fx-background-color: transparent;
+}

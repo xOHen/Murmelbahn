@@ -5,10 +5,7 @@
  */
 package lhm;
 
-import javafx.animation.Animation;
-import javafx.animation.KeyFrame;
-import javafx.animation.KeyValue;
-import javafx.animation.Timeline;
+import javafx.animation.*;
 import javafx.application.Application;
 
 import static java.lang.Math.random;
@@ -35,9 +32,8 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.PhongMaterial;
-import javafx.scene.shape.Circle;
-import javafx.scene.shape.Line;
-import javafx.scene.shape.Sphere;
+import javafx.scene.shape.*;
+import javafx.scene.shape.Shape;
 import javafx.stage.Stage;
 import javafx.scene.layout.StackPane;
 import javafx.util.Duration;
@@ -53,7 +49,9 @@ public class LHM extends Application {
     boolean playstop = true;
     Slider slider = new Slider(0,1.5,1);
     Label multilbl = new Label("x1.0");
-    Timeline timeline = new Timeline();
+    Circle ball = new Circle(20);
+    final Path pfad = pfadErstellen();
+    final PathTransition pfadtrans = generatePathTransition(ball,pfad);
 
 
     @Override
@@ -65,13 +63,22 @@ public class LHM extends Application {
         Scene scene = new Scene(root, 1200,800);
 
         Group circles = new Group();
-        Circle ball = new Circle(10);
-        ball.setLayoutX(90);
-        ball.setLayoutY(48);
+
+        ball.setLayoutX(400);
+        ball.setLayoutY(483);
         ball.setId("ball");
+
+
+        circles.getChildren().add(pfad);
         circles.getChildren().add(ball);
 
-        for (Node circle: circles.getChildren()) {
+        pfadtrans.play();
+
+        Label bahn = new Label();
+        bahn.setMinSize(1200,570);
+        bahn.setId("bahn1");
+
+        /*for (Node circle: circles.getChildren()) {
             timeline.getKeyFrames().addAll(
                     new KeyFrame(Duration.ZERO,
                             new KeyValue(circle.translateXProperty(), 0),
@@ -85,12 +92,15 @@ public class LHM extends Application {
                     )
             );
             timeline.setCycleCount(Animation.INDEFINITE);
-        }
+        }*/
 
         Line line = new Line(0,570,1200,570);
+        Line line2 = new Line(350,525,450,525);
 
-        Label geschwindlabel = new Label("Geschwindigkeit: xx km/h");
-        geschwindlabel.setLayoutX(900);
+
+        Label geschwindlabel = new Label("xx km/h");
+        geschwindlabel.setId("multilbl");
+        geschwindlabel.setLayoutX(1050);
         geschwindlabel.setLayoutY(480);
 
         slider.setShowTickMarks(true);
@@ -126,15 +136,15 @@ public class LHM extends Application {
                 if(playstop==true){
                     System.out.println(playstop);
                     playbreakbtn.setId("playbreakbtn1");
-                    timeline.setRate(slider.getValue());
-                    timeline.play();
+                    pfadtrans.setRate(slider.getValue());
+                    pfadtrans.play();
                     sliderSpeed();
                     playstop=false;
                 }else{
                     System.out.println(playstop);
                     playstop=true;
                     playbreakbtn.setId("playbreakbtn");
-                    timeline.pause();
+                    pfadtrans.pause();
                 }
             }
         });
@@ -143,7 +153,7 @@ public class LHM extends Application {
         stopbtn.setId("stopbtn");
         stopbtn.setOnAction(new EventHandler<ActionEvent>() {
             @Override public void handle(ActionEvent e) {
-                timeline.stop();
+                pfadtrans.stop();
                 playstop=true;
                 playbreakbtn.setId("playbreakbtn");
             }
@@ -151,7 +161,7 @@ public class LHM extends Application {
 
         hbox.getChildren().addAll(playbreakbtn, stopbtn);
 
-        root.getChildren().addAll(line, geschwindlabel, slider, multilabel,hbox, multilbl, ball);
+        root.getChildren().addAll(line, bahn, geschwindlabel, slider, multilabel,hbox, multilbl, ball, line2);
 
         root.getStylesheets().add(LHM.class.getResource("GUI.css").toExternalForm());
 
@@ -168,11 +178,33 @@ public class LHM extends Application {
                 //System.out.println(number);
                 multilbl.setText("x"+number);
                 if(playstop==false){
-                    timeline.setRate(slider.getValue());
-                    timeline.play();
+                    pfadtrans.setRate(slider.getValue());
+                    pfadtrans.play();
                 }
             }
         });
+    }
+
+    private Path pfadErstellen(){
+        Path pfad = new Path();
+        pfad.getElements().add(new MoveTo(0,0));
+        pfad.getElements().add(new CubicCurveTo(0, 0, 50, 0, 50, 0));
+        pfad.getElements().add(new CubicCurveTo(50, 0, 100, 0, 100, -50));
+        pfad.setOpacity(1.0);
+        return pfad;
+    }
+
+    private PathTransition generatePathTransition(final Shape shape, final Path path)
+    {
+        final PathTransition pathTransition = new PathTransition();
+        pathTransition.setDuration(Duration.seconds(8.0));
+        pathTransition.setDelay(Duration.seconds(2.0));
+        pathTransition.setPath(path);
+        pathTransition.setNode(shape);
+        pathTransition.setOrientation(PathTransition.OrientationType.ORTHOGONAL_TO_TANGENT);
+        pathTransition.setCycleCount(Timeline.INDEFINITE);
+        pathTransition.setAutoReverse(true);
+        return pathTransition;
     }
 
     public static void main(String[] args) {
