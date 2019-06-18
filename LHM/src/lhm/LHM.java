@@ -9,6 +9,7 @@ import javafx.animation.*;
 import javafx.application.Application;
 
 import static java.lang.Math.random;
+import static java.lang.String.valueOf;
 import static javafx.application.Application.launch;
 import static jdk.nashorn.internal.objects.NativeMath.round;
 
@@ -18,6 +19,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Parent;
@@ -27,19 +29,19 @@ import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Priority;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.paint.PhongMaterial;
 import javafx.scene.shape.*;
 import javafx.scene.shape.Shape;
 import javafx.stage.Stage;
-import javafx.scene.layout.StackPane;
 import javafx.util.Duration;
+import sun.net.ProgressEvent;
 
 import java.awt.*;
+import java.awt.image.TileObserver;
+import java.lang.reflect.Array;
 
 /**
  *
@@ -52,12 +54,18 @@ public class LHM extends Application {
 
     Slider slider = new Slider(0.25,1.5,1);
     Label multilbl = new Label("x1.0");
+
     Circle ball = new Circle(20);
     Image ballImg = new Image("lhm/Bilder/ball.png");
     ImagePattern imgpattern = new ImagePattern(ballImg);
+
     final Path pfad = pfadErstellen();
     final PathTransition pfadtrans = generatePathTransition(ball,pfad);
 
+    ImageView[][] felder = new ImageView[5][5];
+    ImageView hintergrund = new ImageView("lhm/Bilder/bg-2.png");
+    ImageView transblock1 = new ImageView("lhm/Bilder/Ebene1-transparent.png");
+    ImageView transblock3 = new ImageView("lhm/Bilder/Ebene3-transparent.png");
 
     @Override
     public void start(Stage stage) throws Exception {
@@ -69,31 +77,39 @@ public class LHM extends Application {
 
         stage.getIcons().add(new Image("lhm/Bilder/icon.png"));
 
-        Group circles = new Group();
-
-        ball.setLayoutX(400);
-        ball.setLayoutY(483);
         ball.setId("ball");
         ball.setFill(imgpattern);
 
-
+        Group circles = new Group();
         circles.getChildren().add(pfad);
         circles.getChildren().add(ball);
 
+        TilePane tile = new TilePane();
+        tile.setAlignment(Pos.CENTER);
+        tile.setPrefColumns(5);
+        tile.setPrefRows(5);
 
-        ImageView hintergrund = new ImageView("lhm/Bilder/bg-2.png");
+        int[][] ebenearr= new int[][]{
+                {3, 3, 3, 3, 3},
+                {3, 2, 2, -1, 4},
+                {2, 2, 2, 5, 5},
+                {-1, 2, -1, 5, -1},
+                {1, 1, -1, 5, 5}
+        };
 
-        ImageView transblock1 = new ImageView("lhm/Bilder/Ebene1-transparent.png");
-        ImageView transblock3 = new ImageView("lhm/Bilder/Ebene3-transparent.png");
-
-        ImageView ebene = new ImageView("lhm/Bilder/Ebenen.png");
-        Image ebene1 = new Image("lhm/Bilder/Ebene1.png");
-        Image ebene2 = new Image("lhm/Bilder/Ebene2.png");
-        Image ebene3 = new Image("lhm/Bilder/Ebene3.png");
-        Image ebene4 = new Image("lhm/Bilder/Ebene4.png");
-        Image ebene5 = new Image("lhm/Bilder/Ebene5.png");
-        Image ebene0 = new Image("lhm/Bilder/Ebenen.png");
-
+        for (int i=0;i<5;i++){
+            for(int j=0;j<5;j++){
+                ImageView view = new ImageView("lhm/Bilder/Bahn.png");
+                Rectangle2D rec = new Rectangle2D(j*100,i*100,100,100);
+                view.setViewport(rec);
+                view.setId("view");
+                felder[i][j] = view;
+                if(ebenearr[i][j]== -1){
+                    felder[i][j].setVisible(false);
+                }
+                tile.getChildren().add(felder[i][j]);
+            }
+        }
 
 
         Button pfeill = new Button();
@@ -105,29 +121,37 @@ public class LHM extends Application {
         pfeill.setOnAction(new EventHandler<ActionEvent>() {
             @Override public void handle(ActionEvent e) {
                 if(ebenecounter==1){
-                    ebene.setImage(ebene2);
                     transblock1.setVisible(false);
                     ebenecounter++;
+                    Ebenen(ebenecounter,ebenearr);
                 }else if(ebenecounter==2){
-                    ebene.setImage(ebene3);
                     transblock3.setVisible(true);
                     ebenecounter++;
+                    Ebenen(ebenecounter,ebenearr);
                 }else if(ebenecounter==3){
-                    ebene.setImage(ebene4);
                     transblock3.setVisible(false);
                     ebenecounter++;
+                    Ebenen(ebenecounter,ebenearr);
                 }else if(ebenecounter==4){
-                    ebene.setImage(ebene5);
                     ebenecounter++;
+                    Ebenen(ebenecounter,ebenearr);
                 }else if(ebenecounter==5){
-                    ebene.setImage(ebene0);
                     transblock3.setVisible(true);
                     transblock1.setVisible(true);
+                    for (int i=0;i<5;i++){
+                        for(int j=0;j<5;j++){
+                            if(ebenearr[i][j]== -1){
+                                felder[i][j].setVisible(false);
+                            }else{
+                                felder[i][j].setVisible(true);
+                            }
+                        }
+                    }
                     ebenecounter=0;
                 }else if(ebenecounter==0){
-                    ebene.setImage(ebene1);
                     transblock3.setVisible(false);
                     ebenecounter++;
+                    Ebenen(ebenecounter,ebenearr);
                 }
             }
         });
@@ -141,33 +165,40 @@ public class LHM extends Application {
         pfeilr.setOnAction(new EventHandler<ActionEvent>() {
             @Override public void handle(ActionEvent e) {
                 if(ebenecounter==1){
-                    ebene.setImage(ebene0);
                     transblock3.setVisible(true);
+                    for (int i=0;i<5;i++){
+                        for(int j=0;j<5;j++){
+                            if(ebenearr[i][j]== -1){
+                                felder[i][j].setVisible(false);
+                            }else{
+                                felder[i][j].setVisible(true);
+                            }
+                        }
+                    }
                     ebenecounter--;
                 }else if(ebenecounter==2){
-                    ebene.setImage(ebene1);
                     transblock1.setVisible(true);
                     ebenecounter--;
+                    Ebenen(ebenecounter,ebenearr);
                 }else if(ebenecounter==3){
-                    ebene.setImage(ebene2);
                     transblock3.setVisible(false);
                     ebenecounter--;
+                    Ebenen(ebenecounter,ebenearr);
                 }else if(ebenecounter==4){
-                    ebene.setImage(ebene3);
                     transblock3.setVisible(true);
                     ebenecounter--;
+                    Ebenen(ebenecounter,ebenearr);
                 }else if(ebenecounter==5){
-                    ebene.setImage(ebene4);
                     ebenecounter--;
+                    Ebenen(ebenecounter,ebenearr);
                 }else if(ebenecounter==0){
-                    ebene.setImage(ebene5);
                     transblock3.setVisible(false);
                     transblock1.setVisible(false);
                     ebenecounter=5;
+                    Ebenen(ebenecounter,ebenearr);
                 }
             }
         });
-
 
         /*for (Node circle: circles.getChildren()) {
             timeline.getKeyFrames().addAll(
@@ -186,7 +217,6 @@ public class LHM extends Application {
         }*/
 
         Line line = new Line(0,570,1200,570);
-
 
         Label geschwindlabel = new Label("xx km/h");
         geschwindlabel.setId("multilbl");
@@ -251,7 +281,7 @@ public class LHM extends Application {
 
         hbox.getChildren().addAll(playbreakbtn, stopbtn);
 
-        root.getChildren().addAll(line, hintergrund, ebene, ball, pfeill, pfeilr, transblock1, transblock3, geschwindlabel, slider, multilabel,hbox, multilbl);
+        root.getChildren().addAll(line, hintergrund, tile, ball,pfeill, pfeilr, transblock1, transblock3, geschwindlabel, slider, multilabel,hbox, multilbl);
 
         root.getStylesheets().add(LHM.class.getResource("GUI.css").toExternalForm());
 
@@ -259,6 +289,20 @@ public class LHM extends Application {
         stage.setScene(scene);
         stage.show();
 
+    }
+
+    public void Ebenen(int ebenecounter,int[][] ebenearr){
+        for (int i=0;i<5;i++){
+            for(int j=0;j<5;j++){
+                if(ebenearr[i][j]== ebenecounter){
+                    felder[i][j].setVisible(true);
+                    System.out.println("1");
+                }else{
+                    felder[i][j].setVisible(false);
+                    System.out.println("0");
+                }
+            }
+        }
     }
 
     public void sliderSpeed(){

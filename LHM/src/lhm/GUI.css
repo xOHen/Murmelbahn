@@ -28,6 +28,7 @@ and open the template in the editor.
     -fx-text-fill: white;
     -fx-font-weight: bold;
     -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.4) , 10, 0.5, -1, 1);
+
 }
 
 .slider{
@@ -106,6 +107,8 @@ and open the template in the editor.
 
 #ball{
     -fx-effect: innershadow( one-pass-box , rgba(0,0,0,1.0) , 10, 0.3 , 0 , 0);
+    -fx-translate-x: 400;
+    -fx-translate-y: 483;
 }
 
 #bahn1{
@@ -127,4 +130,11 @@ and open the template in the editor.
 
 #pfeill:hover{
     -fx-background-image: url("Bilder/Pfeilh.png");
+}
+
+#view{
+    -fx-max-width: 100;
+    -fx-max-height: 100;
+    -fx-translate-x: 350;
+    -fx-translate-y: 35;
 }
