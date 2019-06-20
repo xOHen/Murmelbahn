@@ -107,8 +107,6 @@ and open the template in the editor.
 
 #ball{
     -fx-effect: innershadow( one-pass-box , rgba(0,0,0,1.0) , 10, 0.3 , 0 , 0);
-    -fx-translate-x: 400;
-    -fx-translate-y: 483;
 }
 
 #bahn1{

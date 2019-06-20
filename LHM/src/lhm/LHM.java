@@ -8,21 +8,16 @@ package lhm;
 import javafx.animation.*;
 import javafx.application.Application;
 
-import static java.lang.Math.random;
 import static java.lang.String.valueOf;
 import static javafx.application.Application.launch;
-import static jdk.nashorn.internal.objects.NativeMath.round;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Group;
-import javafx.scene.Node;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -30,18 +25,13 @@ import javafx.scene.control.Slider;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
-import javafx.scene.paint.PhongMaterial;
 import javafx.scene.shape.*;
-import javafx.scene.shape.Shape;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-import sun.net.ProgressEvent;
 
-import java.awt.*;
-import java.awt.image.TileObserver;
-import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
 
 /**
  *
@@ -55,7 +45,7 @@ public class LHM extends Application {
     Slider slider = new Slider(0.25,1.5,1);
     Label multilbl = new Label("x1.0");
 
-    Circle ball = new Circle(20);
+    Sphere ball = new Sphere(20);
     Image ballImg = new Image("lhm/Bilder/ball.png");
     ImagePattern imgpattern = new ImagePattern(ballImg);
 
@@ -66,6 +56,16 @@ public class LHM extends Application {
     ImageView hintergrund = new ImageView("lhm/Bilder/bg-2.png");
     ImageView transblock1 = new ImageView("lhm/Bilder/Ebene1-transparent.png");
     ImageView transblock3 = new ImageView("lhm/Bilder/Ebene3-transparent.png");
+
+    float t=0;
+    float sx,sy,sz;
+    float sx0=0,sy0=0,sz0=0;
+    float vx,vy,vz;
+    float vx0,vy0,vz0;
+    float ax,ay,az;
+    TranslateTransition translate;
+    //KeyFrame[] kf = new KeyFrame[];
+    ArrayList<KeyFrame> kf = new ArrayList<KeyFrame>();
 
     @Override
     public void start(Stage stage) throws Exception {
@@ -78,7 +78,9 @@ public class LHM extends Application {
         stage.getIcons().add(new Image("lhm/Bilder/icon.png"));
 
         ball.setId("ball");
-        ball.setFill(imgpattern);
+        ball.setLayoutX(400);
+        ball.setLayoutY(483);
+        //ball.setFill(imgpattern);
 
         Group circles = new Group();
         circles.getChildren().add(pfad);
@@ -216,7 +218,23 @@ public class LHM extends Application {
             timeline.setCycleCount(Animation.INDEFINITE);
         }*/
 
+        //Berechnung b = new Berechnung();
+
         Line line = new Line(0,570,1200,570);
+
+        Line l1 = new Line(200,0,1200,570);
+        QuadCurve c1 = new QuadCurve();
+        c1.setStartX(0.0f);
+        c1.setStartY(50.0f);
+        c1.setEndX(50.0f);
+        c1.setEndY(50.0f);
+        c1.setControlX(25.0f);
+        c1.setControlY(0.0f);
+        //CubicCurveTo(0, 0, 50, 0, 50, 0)
+        //cubic.getTransforms().add(new Rotate(30, 50, 30));
+        c1.setStyle("-fx-stroke-width: 20px;");
+        c1.setStyle("-fx-fill: transparent;");
+
 
         Label geschwindlabel = new Label("xx km/h");
         geschwindlabel.setId("multilbl");
@@ -257,7 +275,8 @@ public class LHM extends Application {
                     System.out.println(playstop);
                     playbreakbtn.setId("playbreakbtn1");
                     pfadtrans.setRate(slider.getValue());
-                    pfadtrans.play();
+                    animation();
+                    //pfadtrans.play();
                     sliderSpeed();
                     playstop=false;
                 }else{
@@ -268,7 +287,6 @@ public class LHM extends Application {
                 }
             }
         });
-
         Button stopbtn = new Button();
         stopbtn.setId("stopbtn");
         stopbtn.setOnAction(new EventHandler<ActionEvent>() {
@@ -288,7 +306,38 @@ public class LHM extends Application {
         stage.setTitle("Kugelbahn");
         stage.setScene(scene);
         stage.show();
+    }
 
+    public void test(){
+        t++;
+        ax=1f;
+        sx=sx0+(vx0*t)+((0.5f)*ax*(t*t));
+        sy=sy0+(vy0*t)+((1/2)*ay*(t*t));
+        sz=sz0+(vz0*t)+((1/2)*az*(t*t));
+        if(t<=100){
+            //kf[(int)t-1] = new KeyFrame(Duration.millis(t*100), new KeyValue (ball.translateXProperty(), sx));
+
+            kf.add(new KeyFrame(Duration.millis((t*100)/slider.getValue()), new KeyValue (ball.translateXProperty(), sx)));
+            System.out.println(sx);
+            test();
+
+        }
+        //ball.setLayoutX(ball.getLayoutX()+sx);
+    }
+
+    public void animation(){
+        /*translate = new TranslateTransition();
+        translate.setDuration(Duration.millis(1000));
+        translate.setCycleCount(1);
+        translate.setAutoReverse(true);
+        translate.setNode(ball);*/
+        test();
+        final Timeline timeline = new Timeline();
+        timeline.setCycleCount(1);
+        for(int i=0;i<kf.size();i++){
+            timeline.getKeyFrames().add(kf.get(i));
+        }
+        timeline.play();
     }
 
     public void Ebenen(int ebenecounter,int[][] ebenearr){
@@ -321,7 +370,7 @@ public class LHM extends Application {
 
     private Path pfadErstellen(){
         Path pfad = new Path();
-        final PauseTransition pt = new PauseTransition( Duration.millis( 1000 ) );
+
         pfad.getElements().add(new MoveTo(0,0));
         pfad.getElements().add(new CubicCurveTo(0, 0, 50, 0, 50, 0));
         pfad.getElements().add(new CubicCurveTo(50, 0, 100, 0, 100, -50));
@@ -349,7 +398,7 @@ public class LHM extends Application {
         return pfad;
     }
 
-    private PathTransition generatePathTransition(final Shape shape, final Path path)
+    private PathTransition generatePathTransition(final Sphere shape, final Path path)
     {
         final PathTransition pathTransition = new PathTransition();
         pathTransition.setDuration(Duration.seconds(8.0));
@@ -357,7 +406,7 @@ public class LHM extends Application {
         pathTransition.setPath(path);
         pathTransition.setNode(shape);
         pathTransition.setOrientation(PathTransition.OrientationType.ORTHOGONAL_TO_TANGENT);
-        pathTransition.setCycleCount(Timeline.INDEFINITE);
+        pathTransition.setCycleCount(Animation.INDEFINITE);
         return pathTransition;
     }
 
