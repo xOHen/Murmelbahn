@@ -75,9 +75,9 @@ public class LHM extends Application {
         f.felderBauen();
 
         ball.setId("ball");
-        ball.setTranslateX(500);
+        ball.setTranslateX(800);
         ball.setTranslateY(233);
-        ball.setTranslateZ(400);
+        ball.setTranslateZ(100);
         //ball.setFill(imgpattern);
 
         Group circles = new Group();
