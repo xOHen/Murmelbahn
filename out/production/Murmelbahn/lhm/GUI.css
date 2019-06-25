@@ -136,3 +136,31 @@ and open the template in the editor.
     -fx-translate-x: 350;
     -fx-translate-y: 35;
 }
+#root {
+     -fx-background-image: url("Bilder/bg.png");
+}
+
+#ueberschrift{
+    -fx-background-image: url("Bilder/überschrift.png");
+    -fx-background-size: 500px 160px;
+    -fx-background-position: center;
+}
+
+#startbutton{
+    -fx-background-image: url("Bilder/buttonstart.png");
+    -fx-pref-width: 120px;
+    -fx-pref-height: 58px;
+    -fx-font: 24 arial;
+}
+#infobutton{
+    -fx-background-image: url("Bilder/buttonstart.png");
+    -fx-pref-width: 120px;
+    -fx-pref-height: 58px;
+    -fx-font: 24 arial;
+}
+#endbutton{
+    -fx-background-image: url("Bilder/buttonstart.png");
+    -fx-pref-width: 120px;
+    -fx-pref-height: 58px;
+    -fx-font: 24 arial;
+}
