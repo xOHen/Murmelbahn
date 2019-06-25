@@ -46,13 +46,13 @@ public class LHM extends Application {
 
     Label multilbl = new Label("x1.0");
     Label geschwindlabel = new Label("xx km/h");
-    Label multilabel = new Label("Multiplikator:");
+    //Label multilabel = new Label("Multiplikator:");
 
     HBox hbox = new HBox();
 
     Pfadberechnung pb=new Pfadberechnung(ball,slider);
     Felder f=new Felder(felder);
-    Berechnung b = new Berechnung(slider,ball, geschwindlabel);
+    Berechnung b = new Berechnung(slider,ball);
 
     @Override
     public void start(Stage stage) throws Exception {
@@ -82,7 +82,7 @@ public class LHM extends Application {
 
         buttonsPlayStop();
 
-        root.getChildren().addAll(line, hintergrund, f.tile, ball,pfeill, pfeilr, transblock1, transblock3, geschwindlabel, slider, multilabel,hbox, multilbl);
+        root.getChildren().addAll(line, hintergrund, f.tile, ball,pfeill, pfeilr, transblock1, transblock3, geschwindlabel, slider,hbox, multilbl);
 
         root.getStylesheets().add(LHM.class.getResource("GUI.css").toExternalForm());
 
@@ -209,8 +209,8 @@ public class LHM extends Application {
         geschwindlabel.setLayoutX(1050);
         geschwindlabel.setLayoutY(480);
 
-        multilabel.setLayoutX(57);
-        multilabel.setLayoutY(585);
+        /*multilabel.setLayoutX(57);
+        multilabel.setLayoutY(585);*/
 
         multilbl.setId("multilbl");
         multilbl.setLayoutX(1070);

@@ -69,13 +69,13 @@
         <counts>
           <entry key="css" value="1337" />
           <entry key="fxml" value="47" />
-          <entry key="java" value="14032" />
+          <entry key="java" value="14185" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
           <entry key="CSS" value="1337" />
-          <entry key="JAVA" value="14032" />
+          <entry key="JAVA" value="14185" />
           <entry key="XML" value="47" />
         </counts>
       </usages-collector>
@@ -83,25 +83,25 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/LHM/src/lhm/LHM.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1088">
-              <caret line="92" selection-start-line="92" selection-end-line="92" />
+            <state relative-caret-position="425">
+              <caret line="212" column="37" selection-start-line="212" selection-start-column="37" selection-end-line="212" selection-end-column="37" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#9954#9955#0" expanded="true" />
-                <element signature="e#9982#9983#0" expanded="true" />
+                <element signature="e#9369#9370#0" expanded="true" />
+                <element signature="e#9397#9398#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/LHM/src/lhm/Berechnung.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="289">
-              <caret line="164" column="12" selection-start-line="164" selection-start-column="12" selection-end-line="164" selection-end-column="12" />
+            <state relative-caret-position="488">
+              <caret line="46" column="27" selection-start-line="46" selection-start-column="27" selection-end-line="46" selection-end-column="27" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -140,8 +140,8 @@
         <option value="$PROJECT_DIR$/LHM/src/lhm/Guistart.java" />
         <option value="$PROJECT_DIR$/LHM/src/lhm/SchichtButton.java" />
         <option value="$PROJECT_DIR$/LHM/src/lhm/GeradenSegmentBerechnung.java" />
-        <option value="$PROJECT_DIR$/LHM/src/lhm/LHM.java" />
         <option value="$PROJECT_DIR$/LHM/src/lhm/Berechnung.java" />
+        <option value="$PROJECT_DIR$/LHM/src/lhm/LHM.java" />
       </list>
     </option>
   </component>
@@ -218,7 +218,7 @@
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1561504444223" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1561505539572" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/../Dame-Brettspiel-/Dame" />
     <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.15" />
@@ -727,24 +727,24 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/LHM/src/lhm/LHM.java">
+    <entry file="file://$PROJECT_DIR$/LHM/src/lhm/Berechnung.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1088">
-          <caret line="92" selection-start-line="92" selection-end-line="92" />
+        <state relative-caret-position="488">
+          <caret line="46" column="27" selection-start-line="46" selection-start-column="27" selection-end-line="46" selection-end-column="27" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#9954#9955#0" expanded="true" />
-            <element signature="e#9982#9983#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/LHM/src/lhm/Berechnung.java">
+    <entry file="file://$PROJECT_DIR$/LHM/src/lhm/LHM.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="289">
-          <caret line="164" column="12" selection-start-line="164" selection-start-column="12" selection-end-line="164" selection-end-column="12" />
+        <state relative-caret-position="425">
+          <caret line="212" column="37" selection-start-line="212" selection-start-column="37" selection-end-line="212" selection-end-column="37" />
           <folding>
             <element signature="imports" expanded="true" />
+            <element signature="e#9369#9370#0" expanded="true" />
+            <element signature="e#9397#9398#0" expanded="true" />
           </folding>
         </state>
       </provider>

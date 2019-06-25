@@ -41,19 +41,17 @@ public class Berechnung{
 
     Sphere ball;
     Slider slider;
-    Label geschwindigkeitlabel;
 
-    public Berechnung(Slider slider, Sphere ball, Label geschwindigkeitlabel){
+    public Berechnung(Slider slider, Sphere ball){
         this.ball=ball;
         this.slider=slider;
-        this.geschwindigkeitlabel=geschwindigkeitlabel;
     }
 
     public void Punkte(){
         for(int i=0;i<points.length-1;i++){
             if(points[i][0]!=points[i+1][0]&&points[i][1]!=points[i+1][1]){
 
-                rechtsKurve(i,v,-0.5f);
+                kurvenStueck(i,v,-0.5f);
 
             }else if(points[i][0]!=points[i+1][0]&&points[i][2]!=points[i+1][2]){
 
@@ -66,17 +64,17 @@ public class Berechnung{
             }else if(points[i][0]!=points[i+1][0]){
 
                 if(points[i][0]>points[i+1][0]){
-                    geradeXL(i,v,-0.5f);
+                    geradeXLinks(i,v,-0.5f);
                 }else if (points[i][0]<points[i+1][0]){
-                    geradeXR(i,v,-0.5f);
+                    geradeXRechts(i,v,-0.5f);
                 }
 
             }else if(points[i][1]!=points[i+1][1]){
 
                 if(points[i][1]>points[i+1][1]){
-                    geradeYH(i,v,-0.5f);
+                    geradeYHoch(i,v,-0.5f);
                 }else if (points[i][1]<points[i+1][1]){
-                    geradeYR(i,v,-0.5f);
+                    geradeYRunter(i,v,-0.5f);
                 }
 
             }else if(points[i][2]!=points[i+1][2]) {
@@ -162,7 +160,7 @@ public class Berechnung{
 
             kf.add(new KeyFrame(Duration.millis(((t*50)-45)/slider.getValue()), new KeyValue (ball.translateZProperty(), points[i+1][2])));
             kf.add(new KeyFrame(Duration.millis(((t*50)-45)/slider.getValue()), new KeyValue (ball.translateYProperty(), points[i+1][1])));
-            
+
             winkel=90;
             j=0;
             k=0;
@@ -182,11 +180,13 @@ public class Berechnung{
         Point3D p;
         double[] v1=new double[2];
         double[] v2=new double[2];
+
             p = new Point3D(points[i+1][0],points[i+1][1],points[i][2]);
             v1[0]=points[i+1][0]-p.getX()-k;
             v1[1]=points[i+1][2]-p.getZ()-j;
             v2[0]=points[i][0]-p.getX();
             v2[1]=points[i][2]-p.getZ();
+
             winkelBerechnen(v1,v2);
 
             xKurvefall(i,v0,a);
@@ -197,23 +197,30 @@ public class Berechnung{
         kurveBerechnen(i,v0,a);
 
         if((ball.getTranslateX()+j)<=points[i+1][0]){
+
             kf.add(new KeyFrame(Duration.millis((t*50)/slider.getValue()), new KeyValue (ball.translateZProperty(), ball.getTranslateZ()-k+a/2)));
             kf.add(new KeyFrame(Duration.millis((t*50)/slider.getValue()), new KeyValue (ball.translateXProperty(), ball.getTranslateX()+j)));
             fallKurveX(i,v0,a);
+
         }else{
+
             kf.add(new KeyFrame(Duration.millis(((t*50)-45)/slider.getValue()), new KeyValue (ball.translateZProperty(), points[i+1][2])));
             kf.add(new KeyFrame(Duration.millis(((t*50)-45)/slider.getValue()), new KeyValue (ball.translateXProperty(), points[i+1][0])));
+
             winkel=90;
             j=0;
             k=0;
+
             if(l==1){
                 v=v0+afall/2*zeit;
             }else{
                 v=v0+afall*zeit;
             }
             l++;
+
             return v;
         }
+
         return v0;
     }
 
@@ -222,10 +229,11 @@ public class Berechnung{
 
     //Kurven nach links & rechts
 
-    public void rechtsKurve(int i,float v0,float a){
+    public void kurvenStueck(int i,float v0,float a){
         Point2D p;
         double[] v1=new double[2];
         double[] v2=new double[2];
+
         if(points[i][0]<points[i+1][0]&&points[i][1]>points[i+1][1]){
             p = new Point2D(points[i+1][0],points[i][1]);
 
@@ -236,7 +244,8 @@ public class Berechnung{
 
             winkelBerechnen(v1,v2);
 
-            rKurveR(i,v0,a);
+            kurveLinksOben(i,v0,a);
+
         }else if(points[i][0]<points[i+1][0]&&points[i][1]<points[i+1][1]){
             p = new Point2D(points[i][0],points[i+1][1]);
 
@@ -247,7 +256,8 @@ public class Berechnung{
 
             winkelBerechnen(v1,v2);
 
-            rKurveA(i,v0,a);
+            kurveRechtsOben(i,v0,a);
+
         }else if(points[i][0]>points[i+1][0]&&points[i][1]<points[i+1][1]){
             p = new Point2D(points[i][0],points[i+1][1]);
 
@@ -258,83 +268,112 @@ public class Berechnung{
 
             winkelBerechnen(v1,v2);
 
-            rKurveZ(i,v0,a);
+            kurveRechtsUnten(i,v0,a);
         }
     }
 
-    public float rKurveR(int i, float v0, float a){
+    public float kurveLinksOben(int i, float v0, float a){
         kurveBerechnen(i,v0,a);
 
         if((ball.getTranslateX()+j)<=points[i+1][0]){
             int rest= (int) (points[i][0]%100);
+
             if(rest==0){
+
                 kf.add(new KeyFrame(Duration.millis((t*50)/slider.getValue()), new KeyValue (ball.translateXProperty(), ball.getTranslateX()+j)));
                 kf.add(new KeyFrame(Duration.millis((t*50)/slider.getValue()), new KeyValue (ball.translateYProperty(), ball.getTranslateY()-k+v0/2)));
+
             }else{
+
                 kf.add(new KeyFrame(Duration.millis((t*50)/slider.getValue()), new KeyValue (ball.translateXProperty(), ball.getTranslateX()+k-v0/2)));
                 kf.add(new KeyFrame(Duration.millis((t*50)/slider.getValue()), new KeyValue (ball.translateYProperty(), ball.getTranslateY()-j)));
+
             }
-            rechtsKurve(i,v0,a);
+
+            kurvenStueck(i,v0,a);
         }else{
+
             kf.add(new KeyFrame(Duration.millis(((t*50)-45)/slider.getValue()), new KeyValue (ball.translateXProperty(), points[i+1][0])));
             kf.add(new KeyFrame(Duration.millis(((t*50)-45)/slider.getValue()), new KeyValue (ball.translateYProperty(), points[i+1][1])));
+
             winkel=90;
             j=0;
             k=0;
             v=v0+a*zeit;
+
             return v;
         }
+
         return v0;
     }
 
-    public float rKurveA(int i, float v0, float a){
+    public float kurveRechtsOben(int i, float v0, float a){
         kurveBerechnen(i,v0,a);
 
         if((ball.getTranslateY()+j)<=points[i+1][1]){
             int rest= (int) (points[i][0]%100);
+
             if(rest!=0){
+
                 kf.add(new KeyFrame(Duration.millis((t*50)/slider.getValue()), new KeyValue (ball.translateXProperty(), ball.getTranslateX()+k-(v0/2))));
                 kf.add(new KeyFrame(Duration.millis((t*50)/slider.getValue()), new KeyValue (ball.translateYProperty(), ball.getTranslateY()+j)));
+
             }else{
+
                 kf.add(new KeyFrame(Duration.millis((t*50)/slider.getValue()), new KeyValue (ball.translateXProperty(), ball.getTranslateX()+j)));
                 kf.add(new KeyFrame(Duration.millis((t*50)/slider.getValue()), new KeyValue (ball.translateYProperty(), ball.getTranslateY()+k-v0/2)));
+
             }
 
-            rechtsKurve(i,v0,a);
+            kurvenStueck(i,v0,a);
         }else{
+
             kf.add(new KeyFrame(Duration.millis(((t*50)-45)/slider.getValue()), new KeyValue (ball.translateXProperty(), points[i+1][0])));
             kf.add(new KeyFrame(Duration.millis(((t*50)-45)/slider.getValue()), new KeyValue (ball.translateYProperty(), points[i+1][1])));
+
             winkel=90;
             j=0;
             k=0;
             v=v0+a*zeit;
+
             return v;
         }
+
         return v0;
     }
 
-    public float rKurveZ(int i, float v0, float a){
+    public float kurveRechtsUnten(int i, float v0, float a){
         kurveBerechnen(i,v0,a);
 
         if((ball.getTranslateY()+j)<=points[i+1][1]){
             int rest= (int) (points[i][0]%100);
+
             if(rest==0){
+
                 kf.add(new KeyFrame(Duration.millis((t*50)/slider.getValue()), new KeyValue (ball.translateXProperty(), ball.getTranslateX()-j)));
                 kf.add(new KeyFrame(Duration.millis((t*50)/slider.getValue()), new KeyValue (ball.translateYProperty(), ball.getTranslateY()+k-(v0/2))));
+
             }else{
+
                 kf.add(new KeyFrame(Duration.millis((t*50)/slider.getValue()), new KeyValue (ball.translateXProperty(), ball.getTranslateX()-k+v0/2)));
                 kf.add(new KeyFrame(Duration.millis((t*50)/slider.getValue()), new KeyValue (ball.translateYProperty(), ball.getTranslateY()+j)));
+
             }
-            rechtsKurve(i,v0,a);
+
+            kurvenStueck(i,v0,a);
         }else{
+
             kf.add(new KeyFrame(Duration.millis(((t*50)-45)/slider.getValue()), new KeyValue (ball.translateXProperty(), points[i+1][0])));
             kf.add(new KeyFrame(Duration.millis(((t*50)-45)/slider.getValue()), new KeyValue (ball.translateYProperty(), points[i+1][1])));
+
             winkel=90;
             j=0;
             k=0;
             v=v0+a*zeit;
+
             return v;
         }
+
         return v0;
     }
 
@@ -390,31 +429,41 @@ public class Berechnung{
 
     //Berechnung für Y-Achse
 
-    public float geradeYR(int i,float v0, float a){
+    public float geradeYRunter(int i,float v0, float a){
         berechnungGerade(v0,a);
 
         if((ball.getTranslateY()+s)<=points[i+1][1]){
+
             kf.add(new KeyFrame(Duration.millis((t*50)/slider.getValue()), new KeyValue (ball.translateYProperty(), ball.getTranslateY()+s)));
-            geradeYR(i,v0,a);
+            geradeYRunter(i,v0,a);
+
         }else{
+
             kf.add(new KeyFrame(Duration.millis(((t*50)-45)/slider.getValue()), new KeyValue (ball.translateYProperty(), points[i+1][1])));
             v=v0+a*zeit;
+
             return v;
         }
+
         return v0;
     }
 
-    public float geradeYH(int i,float v0, float a){
+    public float geradeYHoch(int i, float v0, float a){
         berechnungGerade(v0,a);
 
         if((ball.getTranslateY()-s)>=points[i+1][1]){
+
             kf.add(new KeyFrame(Duration.millis((t*50)/slider.getValue()), new KeyValue (ball.translateYProperty(), ball.getTranslateY()-s)));
-            geradeYH(i,v0,a);
+            geradeYHoch(i,v0,a);
+
         }else{
+
             kf.add(new KeyFrame(Duration.millis(((t*50)-45)/slider.getValue()), new KeyValue (ball.translateYProperty(), points[i+1][1])));
             v=v0+a*zeit;
+
             return v;
         }
+
         return v0;
     }
 
@@ -423,31 +472,41 @@ public class Berechnung{
 
     //Berechnung der X-Achse
 
-    public float geradeXL(int i,float v0, float a){
+    public float geradeXLinks(int i, float v0, float a){
         berechnungGerade(v0,a);
 
         if((ball.getTranslateX()-s)>=points[i+1][0]){
+
             kf.add(new KeyFrame(Duration.millis((t*50)/slider.getValue()), new KeyValue (ball.translateXProperty(), ball.getTranslateX()-s)));
-            geradeXL(i,v0,a);
+            geradeXLinks(i,v0,a);
+
         }else{
+
             kf.add(new KeyFrame(Duration.millis(((t*50)-45)/slider.getValue()), new KeyValue (ball.translateXProperty(), points[i+1][0])));
             v=v0+a*zeit;
+
             return v;
         }
+
         return v0;
     }
 
-    public float geradeXR(int i,float v0, float a){
+    public float geradeXRechts(int i, float v0, float a){
         berechnungGerade(v0,a);
 
         if((ball.getTranslateX()+s)<=points[i+1][0]){
+
             kf.add(new KeyFrame(Duration.millis((t*50)/slider.getValue()), new KeyValue (ball.translateXProperty(), ball.getTranslateX()+s)));
-            geradeXR(i,v0,a);
+            geradeXRechts(i,v0,a);
+
         }else{
+
             kf.add(new KeyFrame(Duration.millis(((t*50)-45)/slider.getValue()), new KeyValue (ball.translateXProperty(), points[i+1][0])));
             v=v0+a*zeit;
+
             return v;
         }
+
         return v0;
     }
 
@@ -460,13 +519,18 @@ public class Berechnung{
         berechnungGerade(v0,a);
 
         if((ball.getTranslateZ()-s)>=points[i+1][2]){
+
             kf.add(new KeyFrame(Duration.millis((t*50)/slider.getValue()), new KeyValue (ball.translateZProperty(), ball.getTranslateZ()-s)));
             geradeZ(i,v0,a);
+
         }else{
+
             kf.add(new KeyFrame(Duration.millis(((t*50)-45)/slider.getValue()), new KeyValue (ball.translateZProperty(), points[i+1][2])));
             v=(v0+a*zeit)/2;
+
             return v;
         }
+
         return v0;
     }
 
@@ -507,7 +571,6 @@ public class Berechnung{
 
         for(int i=0;i<kf.size();i++){
             timeline.getKeyFrames().add(kf.get(i));
-            geschwindigkeitlabel.setText(v0+a*zeit+"px/s");
         }
 
         timeline.play();
