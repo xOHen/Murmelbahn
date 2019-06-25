@@ -46,7 +46,12 @@ public class Guistart extends Application {
 
             @Override
             public void handle(ActionEvent event) {
-                //System.out.println("Hello World!");
+                LHM lhm = new LHM();
+                try {
+                    lhm.start(primaryStage);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         });
 

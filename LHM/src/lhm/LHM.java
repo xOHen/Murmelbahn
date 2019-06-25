@@ -5,19 +5,13 @@
  */
 package lhm;
 
-import javafx.animation.*;
 import javafx.application.Application;
 
-import static java.lang.String.valueOf;
-import static javafx.application.Application.launch;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.geometry.Pos;
-import javafx.geometry.Rectangle2D;
-import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -25,13 +19,11 @@ import javafx.scene.control.Slider;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
-import javafx.scene.paint.ImagePattern;
+import javafx.scene.paint.Color;
+import javafx.scene.paint.PhongMaterial;
 import javafx.scene.shape.*;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-
-import java.util.ArrayList;
-import java.util.concurrent.TimeUnit;
 
 /**
  *
@@ -44,8 +36,8 @@ public class LHM extends Application {
     Slider slider = new Slider(0.25,1.5,1);
 
     Sphere ball = new Sphere(20);
-    Image ballImg = new Image("lhm/Bilder/ball.png");
-    ImagePattern imgpattern = new ImagePattern(ballImg);
+
+    Button pfeill,pfeilr;
 
     ImageView[][] felder = new ImageView[5][5];
     ImageView hintergrund = new ImageView("lhm/Bilder/bg-2.png");
@@ -60,7 +52,7 @@ public class LHM extends Application {
 
     Pfadberechnung pb=new Pfadberechnung(ball,slider);
     Felder f=new Felder(felder);
-    Berechnung b = new Berechnung(slider,ball);
+    Berechnung b = new Berechnung(slider,ball, geschwindlabel);
 
     @Override
     public void start(Stage stage) throws Exception {
@@ -74,124 +66,142 @@ public class LHM extends Application {
 
         f.felderBauen();
 
-        ball.setId("ball");
-        ball.setTranslateX(800);
-        ball.setTranslateY(233);
-        ball.setTranslateZ(100);
-        //ball.setFill(imgpattern);
-
-        Group circles = new Group();
+        /*Group circles = new Group();
         circles.getChildren().add(pb.pfad);
-        circles.getChildren().add(ball);
-
-        Circle cirlce = new Circle(50);
-        cirlce.setLayoutX(450);
-        cirlce.setLayoutY(133);
-        cirlce.setFill(imgpattern);
-
-        Button pfeill = new Button();
-        pfeill.setId("pfeill");
-        pfeill.setMinSize(69,125);
-        pfeill.setLayoutX(50);
-        pfeill.setLayoutY(450);
-        pfeill.setRotate(90);
-        pfeill.setOnAction(new EventHandler<ActionEvent>() {
-            @Override public void handle(ActionEvent e) {
-                if(ebenecounter==1){
-                    transblock1.setVisible(false);
-                    ebenecounter++;
-                    Ebenen(ebenecounter,f.ebenearr);
-                }else if(ebenecounter==2){
-                    transblock3.setVisible(true);
-                    ebenecounter++;
-                    Ebenen(ebenecounter,f.ebenearr);
-                }else if(ebenecounter==3){
-                    transblock3.setVisible(false);
-                    ebenecounter++;
-                    Ebenen(ebenecounter,f.ebenearr);
-                }else if(ebenecounter==4){
-                    ebenecounter++;
-                    Ebenen(ebenecounter,f.ebenearr);
-                }else if(ebenecounter==5){
-                    transblock3.setVisible(true);
-                    transblock1.setVisible(true);
-                    ebenecounter=0;
-                    Ebenen(ebenecounter,f.ebenearr);
-                }else if(ebenecounter==0){
-                    transblock3.setVisible(false);
-                    ebenecounter++;
-                    Ebenen(ebenecounter,f.ebenearr);
-                }
-            }
-        });
-
-        Button pfeilr = new Button();
-        pfeilr.setId("pfeill");
-        pfeilr.setMinSize(69,125);
-        pfeilr.setLayoutX(50);
-        pfeilr.setLayoutY(360);
-        pfeilr.setRotate(-90);
-        pfeilr.setOnAction(new EventHandler<ActionEvent>() {
-            @Override public void handle(ActionEvent e) {
-                if(ebenecounter==1){
-                    transblock3.setVisible(true);
-                    ebenecounter--;
-                    Ebenen(ebenecounter,f.ebenearr);
-                }else if(ebenecounter==2){
-                    transblock1.setVisible(true);
-                    ebenecounter--;
-                    Ebenen(ebenecounter,f.ebenearr);
-                }else if(ebenecounter==3){
-                    transblock3.setVisible(false);
-                    ebenecounter--;
-                    Ebenen(ebenecounter,f.ebenearr);
-                }else if(ebenecounter==4){
-                    transblock3.setVisible(true);
-                    ebenecounter--;
-                    Ebenen(ebenecounter,f.ebenearr);
-                }else if(ebenecounter==5){
-                    ebenecounter--;
-                    Ebenen(ebenecounter,f.ebenearr);
-                }else if(ebenecounter==0){
-                    transblock3.setVisible(false);
-                    transblock1.setVisible(false);
-                    ebenecounter=5;
-                    Ebenen(ebenecounter,f.ebenearr);
-                }
-            }
-        });
-
-        /*for (Node circle: circles.getChildren()) {
-            timeline.getKeyFrames().addAll(
-                    new KeyFrame(Duration.ZERO,
-                            new KeyValue(circle.translateXProperty(), 0),
-                            new KeyValue(circle.translateYProperty(), 0),
-                            new KeyValue(circle.translateZProperty(),0)
-                    ),
-                    new KeyFrame(new Duration(10000),
-                            new KeyValue(circle.translateXProperty(), 800),
-                            new KeyValue(circle.translateYProperty(), 0),
-                            new KeyValue(circle.translateZProperty(),100)
-                    )
-            );
-            timeline.setCycleCount(Animation.INDEFINITE);
-        }*/
+        circles.getChildren().add(ball);*/
 
         Line line = new Line(0,570,1200,570);
+
+        ball();
 
         labels();
 
         slider();
 
+        buttonEbene();
+
         buttonsPlayStop();
 
-        root.getChildren().addAll(line, hintergrund, f.tile,cirlce, ball,pfeill, pfeilr, transblock1, transblock3, geschwindlabel, slider, multilabel,hbox, multilbl);
+        root.getChildren().addAll(line, hintergrund, f.tile, ball,pfeill, pfeilr, transblock1, transblock3, geschwindlabel, slider, multilabel,hbox, multilbl);
 
         root.getStylesheets().add(LHM.class.getResource("GUI.css").toExternalForm());
 
         stage.setTitle("Kugelbahn");
         stage.setScene(scene);
         stage.show();
+    }
+
+    public void ball(){
+        ball.setId("ball");
+        ball.setTranslateX(400);
+        ball.setTranslateY(483);
+        ball.setTranslateZ(500);
+
+        PhongMaterial phongMaterial= new PhongMaterial();
+        phongMaterial.setDiffuseColor(Color.rgb(197,17,68));
+        phongMaterial.setSpecularColor(Color.rgb(89,12,38));
+
+        ball.setMaterial(phongMaterial);
+    }
+
+    public void buttonEbene(){
+        pfeill = new Button();
+        pfeill.setId("pfeill");
+        pfeill.setMinSize(69,125);
+        pfeill.setLayoutX(50);
+        pfeill.setLayoutY(450);
+        pfeill.setRotate(90);
+
+        pfeill.setOnAction(new EventHandler<ActionEvent>() {
+            @Override public void handle(ActionEvent e) {
+                if(ebenecounter==1){
+
+                    transblock1.setVisible(false);
+                    ebenecounter++;
+                    Ebenen(ebenecounter,f.ebenearr);
+
+                }else if(ebenecounter==2){
+
+                    transblock3.setVisible(true);
+                    ebenecounter++;
+                    Ebenen(ebenecounter,f.ebenearr);
+
+                }else if(ebenecounter==3){
+
+                    transblock3.setVisible(false);
+                    ebenecounter++;
+                    Ebenen(ebenecounter,f.ebenearr);
+
+                }else if(ebenecounter==4){
+
+                    ebenecounter++;
+                    Ebenen(ebenecounter,f.ebenearr);
+
+                }else if(ebenecounter==5){
+
+                    transblock3.setVisible(true);
+                    transblock1.setVisible(true);
+                    ebenecounter=0;
+                    Ebenen(ebenecounter,f.ebenearr);
+
+                }else if(ebenecounter==0){
+
+                    transblock3.setVisible(false);
+                    ebenecounter++;
+                    Ebenen(ebenecounter,f.ebenearr);
+
+                }
+            }
+        });
+
+        pfeilr = new Button();
+        pfeilr.setId("pfeill");
+        pfeilr.setMinSize(69,125);
+        pfeilr.setLayoutX(50);
+        pfeilr.setLayoutY(360);
+        pfeilr.setRotate(-90);
+
+        pfeilr.setOnAction(new EventHandler<ActionEvent>() {
+            @Override public void handle(ActionEvent e) {
+                if(ebenecounter==1){
+
+                    transblock3.setVisible(true);
+                    ebenecounter--;
+                    Ebenen(ebenecounter,f.ebenearr);
+
+                }else if(ebenecounter==2){
+
+                    transblock1.setVisible(true);
+                    ebenecounter--;
+                    Ebenen(ebenecounter,f.ebenearr);
+
+                }else if(ebenecounter==3){
+
+                    transblock3.setVisible(false);
+                    ebenecounter--;
+                    Ebenen(ebenecounter,f.ebenearr);
+
+                }else if(ebenecounter==4){
+
+                    transblock3.setVisible(true);
+                    ebenecounter--;
+                    Ebenen(ebenecounter,f.ebenearr);
+
+                }else if(ebenecounter==5){
+
+                    ebenecounter--;
+                    Ebenen(ebenecounter,f.ebenearr);
+
+                }else if(ebenecounter==0){
+
+                    transblock3.setVisible(false);
+                    transblock1.setVisible(false);
+                    ebenecounter=5;
+                    Ebenen(ebenecounter,f.ebenearr);
+
+                }
+            }
+        });
     }
 
     public void labels(){
@@ -214,21 +224,28 @@ public class LHM extends Application {
 
         Button playbreakbtn = new Button();
         playbreakbtn.setId("playbreakbtn");
+
         playbreakbtn.setOnAction(new EventHandler<ActionEvent>() {
             @Override public void handle(ActionEvent e) {
                 if(playstop==true){
-                    System.out.println(playstop);
                     playbreakbtn.setId("playbreakbtn1");
-                    pb.pfadtrans.setRate(slider.getValue());
-                    b.animation();
+
+                    //pb.pfadtrans.setRate(slider.getValue());
                     //pfadtrans.play();
+
+                    b.animation();
+                    b.timeline.setRate(slider.getValue());
                     sliderSpeed();
+
                     playstop=false;
                 }else{
-                    System.out.println(playstop);
-                    playstop=true;
                     playbreakbtn.setId("playbreakbtn");
-                    pb.pfadtrans.pause();
+
+                    //pb.pfadtrans.pause();
+
+                    b.timeline.pause();
+
+                    playstop=true;
                 }
             }
         });
@@ -236,9 +253,14 @@ public class LHM extends Application {
         stopbtn.setId("stopbtn");
         stopbtn.setOnAction(new EventHandler<ActionEvent>() {
             @Override public void handle(ActionEvent e) {
-                pb.pfadtrans.stop();
-                playstop=true;
                 playbreakbtn.setId("playbreakbtn");
+
+                //pb.pfadtrans.stop();
+
+                b.timeline.jumpTo(Duration.millis(0));
+                b.timeline.stop();
+
+                playstop=true;
             }
         });
 
@@ -249,17 +271,23 @@ public class LHM extends Application {
         for (int i=0;i<5;i++){
             for(int j=0;j<5;j++){
                 if(ebenearr[i][j]== ebenecounter){
+
                     felder[i][j].setVisible(true);
-                    System.out.println("1");
+
                 }else if(ebenecounter==0){
                     if(f.ebenearr[i][j]== -1){
+
                         felder[i][j].setVisible(false);
+
                     }else{
+
                         felder[i][j].setVisible(true);
+
                     }
                 }else{
+
                     felder[i][j].setVisible(false);
-                    System.out.println("0");
+
                 }
             }
         }
@@ -283,11 +311,14 @@ public class LHM extends Application {
         slider.valueProperty().addListener(new ChangeListener<Number>() {
             @Override public void changed(ObservableValue<? extends Number> observableValue, Number oldValue, Number newValue) {
                 String number = String.format("%.2f", slider.getValue());
-                //System.out.println(number);
                 multilbl.setText("x"+number);
+
                 if(playstop==false){
-                    pb.pfadtrans.setRate(slider.getValue());
-                    pb.pfadtrans.play();
+                    //pb.pfadtrans.setRate(slider.getValue());
+                    //pb.pfadtrans.play();
+
+                    b.timeline.setRate(slider.getValue());
+                    b.timeline.play();
                 }
             }
         });
