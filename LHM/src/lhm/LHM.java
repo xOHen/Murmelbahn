@@ -45,8 +45,8 @@ public class LHM extends Application {
     ImageView transblock3 = new ImageView("lhm/Bilder/Ebene3-transparent.png");
 
     Label multilbl = new Label("x1.0");
-    Label geschwindlabel = new Label("xx km/h");
-    //Label multilabel = new Label("Multiplikator:");
+    //Label geschwindlabel = new Label("xx km/h");
+    Label multilabel = new Label("Multiplikator:");
 
     HBox hbox = new HBox();
 
@@ -82,7 +82,7 @@ public class LHM extends Application {
 
         buttonsPlayStop();
 
-        root.getChildren().addAll(line, hintergrund, f.tile, ball,pfeill, pfeilr, transblock1, transblock3, geschwindlabel, slider,hbox, multilbl);
+        root.getChildren().addAll(line, hintergrund, f.tile, ball,pfeill, pfeilr, transblock1, transblock3, multilabel, slider,hbox, multilbl);
 
         root.getStylesheets().add(LHM.class.getResource("GUI.css").toExternalForm());
 
@@ -205,12 +205,12 @@ public class LHM extends Application {
     }
 
     public void labels(){
-        geschwindlabel.setId("multilbl");
+        /*geschwindlabel.setId("multilbl");
         geschwindlabel.setLayoutX(1050);
-        geschwindlabel.setLayoutY(480);
+        geschwindlabel.setLayoutY(480);*/
 
-        /*multilabel.setLayoutX(57);
-        multilabel.setLayoutY(585);*/
+        multilabel.setLayoutX(57);
+        multilabel.setLayoutY(585);
 
         multilbl.setId("multilbl");
         multilbl.setLayoutX(1070);
