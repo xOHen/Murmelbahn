@@ -141,7 +141,7 @@ and open the template in the editor.
 }
 
 #ueberschrift{
-    -fx-background-image: url("Bilder/überschrift.png");
+    -fx-background-image: url("Bilder/ueberschrift.png");
     -fx-background-size: 500px 160px;
     -fx-background-position: center;
 }
